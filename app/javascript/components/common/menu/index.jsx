@@ -1,7 +1,9 @@
 import React from 'react'
-import { Button, Navbar, Container, Columns } from "react-bulma-components";
+import { Button, Navbar, Container, Columns, Dropdown } from "react-bulma-components";
+import { FaUserCircle } from "react-icons/fa";
 import logoImage from '../../../assets/images/logo.png'
 import styled from 'styled-components'
+import { useLocation } from "react-router-dom";
 
 const ColumnsFullWidth = styled(Columns)`
   width: 100%;
@@ -11,6 +13,28 @@ const ColumnsFullWidth = styled(Columns)`
 `
 
 const Menu = () => {
+
+  let actionButton;
+
+  if (useLocation().pathname == '/') {
+    actionButton = <a href='/users/sign_in' className='is-pulled-right is-right'>
+      <Button outlined={true} color='white'>ENTRAR</Button>
+    </a>
+  } else {
+    actionButton = <Dropdown className='is-pulled-right is-right' color='dark' label={<FaUserCircle size='2em' />}>
+      <Dropdown.Item value='other'>
+        <a href='/users/edit'>
+          Edit User
+        </a>
+      </Dropdown.Item>
+      <Dropdown.Item value='other'>
+        <a href='/users/sign_out'>
+          Logout
+        </a>
+      </Dropdown.Item>
+    </Dropdown>
+  }
+
   return (
     <>
       <Navbar color='dark'>
@@ -20,9 +44,7 @@ const Menu = () => {
               <img src={logoImage} className='image' />
             </Columns.Column>
             <Columns.Column>
-              <a href='/users/sign_in' className='is-pulled-right is-right'>
-                <Button outlined={true} color='white'>ENTRAR</Button>
-              </a>
+              {actionButton}
             </Columns.Column>
           </ColumnsFullWidth>
         </Container>
